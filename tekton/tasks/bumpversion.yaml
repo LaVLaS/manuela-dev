@@ -24,7 +24,7 @@ spec:
 #      description: The current date in unix timestamp format
   steps:
   - name: bumpversion
-    image: quay.io/manuela/bumpversiontask:latest
+    image: quay.io/llasmith/bumpversiontask:latest
     script: |
       #!/usr/bin/env bash
       cd git-repo/$(inputs.params.PATH_CONTEXT)/

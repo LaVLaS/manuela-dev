@@ -4,7 +4,7 @@ metadata:
 projects:
  - name: manuela-dev
    source:
-     location: 'git@github.com:sa-mw-dach/manuela-dev.git'
+     location: 'git@github.com:lavlas/manuela-dev.git'
      type: git
      branch: master
 components:

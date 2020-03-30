@@ -169,7 +169,7 @@ spec:
     - name: IMAGESTREAM_PATH
       value: config/templates/manuela-openshift-prod/messaging/messaging-is.yaml 
     - name: REMOTE_IMAGE
-      value: quay.io/manuela/iot-consumer
+      value: quay.io/llasmith/iot-consumer
   - name: create-pull-request
     taskRef:
       name: github-add-pull-request 
@@ -177,7 +177,7 @@ spec:
       - modify-gitops-prod
     params:
       - name: GITHUB_REPO
-        value: sa-mw-dach/manuela-gitops
+        value: lavlas/manuela-gitops
       - name: GIT_BRANCH_HEAD
         value: staging-approval
       - name: GIT_BRANCH_BASE
