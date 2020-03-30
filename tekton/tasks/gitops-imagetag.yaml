@@ -38,7 +38,7 @@ spec:
       default: ""
     - name: REMOTE_IMAGE
       type: string
-      description: quay.io/manuela/iot-consumer
+      description: quay.io/llasmith/iot-consumer
       default: ""
     - name: TRUNCATE_IMAGESTREAM_TAGS_AFTER
       type: string

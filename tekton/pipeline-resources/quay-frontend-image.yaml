@@ -6,4 +6,4 @@ spec:
   type: image
   params:
     - name: url
-      value: quay.io/manuela/iot-frontend
+      value: quay.io/llasmith/iot-frontend
