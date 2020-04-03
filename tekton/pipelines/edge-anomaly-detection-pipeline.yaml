@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: edge-anomaly-detection-pipeline
+spec:
+  resources:
+  - name: gitops-repo
+    type: git
+  - name: remote-image
+    type: image
+  - name: git-repo
+    type: git
+  - name: local-image
+    type: image
+  tasks:
+  - name: build-edge-anomaly-detection-pipeline
+    taskRef:
+      name: s2i-python-3
+      kind: ClusterTask
+    resources:
+      inputs:
+        - name: source
+          resource: git-repo
+      outputs:
+        - name: image
+          resource: local-image
+    params:
+      - name: TLSVERIFY
+        value: "false"
+      - name: PATH_CONTEXT
+        value: "."
+      - name: MINOR_VERSION
+        value: "6"
