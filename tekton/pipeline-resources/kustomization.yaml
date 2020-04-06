@@ -7,4 +7,6 @@ resources:
 - quay-frontend-image.yaml
 - ocp-sensor-image.yaml
 - quay-sensor-image.yaml
-
+- ocp-edge-anomaly-detection-image.yaml
+- quay-edge-anomaly-detection-image.yaml
+- edge-anomaly-detection-git.yaml

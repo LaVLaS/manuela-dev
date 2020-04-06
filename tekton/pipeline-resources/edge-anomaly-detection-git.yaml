@@ -8,4 +8,4 @@ spec:
   - name: url
     value: https://github.com/vpavlin/edge-anomaly-detection
   - name: revision
-    value: master
+    value: moving-average
