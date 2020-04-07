@@ -78,15 +78,17 @@ function handleLight(message) {
 async function check_anomaly(id, value) {
     var result = false
 
-    var edgeAnomalyDict = { "data": { "ndarray": [value] }};
+    var edgeAnomalyDict = { "data": { "ndarray": [parseFloat(value)] }};
+
+    log.debug("edgeAnomalyDict: " + JSON.stringify(edgeAnomalyDict)); //DELETE
 
     try {
       if ( id != 'floor-1-line-1-extruder-1pump-2' ) {
-        result = false
+        result = false;
         console.log('Last ID: %s,  Val: NO', id );
       } else {
         console.log('Last ID: %s,  Val: %d', id, value );
-        edgeAnomalyResponse = await request({
+        const edgeAnomalyResponse = await request({
           method: 'POST',
           uri: 'http://anomaly-detection-opendatahub.apps.core-aionedge.dev.datahub.redhat.com/api/v0.1/predictions',
           body: edgeAnomalyDict,
@@ -94,12 +96,13 @@ async function check_anomaly(id, value) {
           timeout: 1000
         });
 
-        log.debug("Edge Anomaly Repsonse: " + edgeAnomalyResponse);
+        log.debug("Edge Anomaly Repsonse: " + JSON.stringify(edgeAnomalyResponse)); //DELETE
+        log.debug("Edge Anomaly Repsonse.data: " + JSON.stringify(edgeAnomalyResponse.data)); //DELETE
 
-        if ( parseFloat(edgeAnomalyResponse["data"]["ndarray"][0]) > 0.0 ){
-          result = true
+        if ( parseInt(edgeAnomalyResponse["data"]["ndarray"][0]) == 1 ){
+          result = true;
         } else {
-          result = false
+          result = false;
         }
       }
     } catch (err) {
@@ -151,7 +154,7 @@ async function handleVibration(message) {
 
 
         var ano = check_anomaly(id,value)
-        console.log('Ano: %s', ano.toString());
+        console.log('Ano: %s', ano);
 
         if(ano) {
             console.log('vibration alert!!!');
