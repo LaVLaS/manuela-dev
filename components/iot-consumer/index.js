@@ -134,7 +134,17 @@ function handleVibration(message) {
         var id=elements[0]+elements[1]
         var value = parseFloat(elements[2])
 
-        var ano = check_anomaly(id,value)
+        var edgeAnomalyDict = { "data": { "ndarray": value }};
+
+        //var ano = check_anomaly(id,value)
+        var ano = await request({
+          method: 'POST',
+          uri: 'anomaly-detection-opendatahub.apps.core-aionedge.dev.datahub.redhat.com',
+          body: edgeAnomalyDict,
+          json: true,
+          timeout: 1000
+        });
+
         console.log('Ano: %s', ano.toString());
 
         if(ano) {
