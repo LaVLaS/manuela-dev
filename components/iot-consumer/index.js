@@ -97,7 +97,7 @@ async function check_anomaly(id, value) {
 
         log.debug("Edge Anomaly Repsonse: " + edgeAnomalyResponse);
 
-        if ( edgeAnomalyResponse["data"]["ndarray"][0] < 1.0 ){
+        if ( parseFloat(edgeAnomalyResponse["data"]["ndarray"][0]) < 1.0 ){
           result = true
         } else {
           result = false
