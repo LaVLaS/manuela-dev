@@ -5,7 +5,7 @@ metadata:
 data:
   config.json: |-
     {
-        "websocketHost": "http://iot-consumer-iotdemo.apps.llasmith.dev.datahub.redhat.com",
+        "websocketHost": "http://iot-consumer.iotdemo.svc",
         "websocketPath": "/api/service-web/socket",
         "SERVER_TIMEOUT": 20000
     }

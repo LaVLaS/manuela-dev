@@ -122,7 +122,7 @@ function handleTemperature(message) {
     }
 }
 
-function handleVibration(message) {
+async function handleVibration(message) {
     console.log('handleVibration data %s', message);
     io.sockets.emit("vibration-event", message);
 
