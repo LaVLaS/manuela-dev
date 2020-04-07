@@ -81,32 +81,30 @@ async function check_anomaly(id, value) {
 
     var edgeAnomalyDict = { "data": { "ndarray": value }};
 
-    if ( isNaN(last_value_map[id])) {
-       result = false
-       console.log('Last ID: %s,  Val: NO', id );
-    } else {
-       console.log('Last ID: %s,  Val: %d', id, last_value_map[id] );
-       edgeAnomalyResponse = await request({
-         method: 'POST',
-         uri: 'http://anomaly-detection-opendatahub.apps.core-aionedge.dev.datahub.redhat.com',
-         body: edgeAnomalyDict,
-         json: true,
-         timeout: 1000
-       });
+    try {
+      if ( isNaN(last_value_map[id])) {
+        result = false
+        console.log('Last ID: %s,  Val: NO', id );
+      } else {
+        console.log('Last ID: %s,  Val: %d', id, last_value_map[id] );
+        edgeAnomalyResponse = await request({
+          method: 'POST',
+          uri: 'http://anomaly-detection-opendatahub.apps.core-aionedge.dev.datahub.redhat.com',
+          body: edgeAnomalyDict,
+          json: true,
+          timeout: 1000
+        });
 
-       if ( edgeAnomalyResponse["data"]["ndarray"][0] < 1.0 ){
-         result = true
-       } else {
-         result = false
-       }
+        log.debug("Edge Anomaly Repsonse: " + edgeAnomalyResponse);
 
-       /*
-       if (  value > 2 && value > (last_value_map[id] * 1.95) ) {
-	      result = true 
-       } else {
-         result = false 
-       }
-       */
+        if ( edgeAnomalyResponse["data"]["ndarray"][0] < 1.0 ){
+          result = true
+        } else {
+          result = false
+        }
+      }
+    } catch (err) {
+      log.error("check_anomaly failed", err)
     }
     
     console.log('New  ID: %s,  Val: %d', id, value );
