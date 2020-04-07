@@ -75,18 +75,17 @@ function handleLight(message) {
 
 
 // Mock for Anomaly
-var last_value_map = {};
 async function check_anomaly(id, value) {
     var result = false
 
     var edgeAnomalyDict = { "data": { "ndarray": [value] }};
 
     try {
-      if ( isNaN(last_value_map[id])) {
+      if ( id != 'floor-1-line-1-extruder-1pump-2' ) {
         result = false
         console.log('Last ID: %s,  Val: NO', id );
       } else {
-        console.log('Last ID: %s,  Val: %d', id, last_value_map[id] );
+        console.log('Last ID: %s,  Val: %d', id, value );
         edgeAnomalyResponse = await request({
           method: 'POST',
           uri: 'http://anomaly-detection-opendatahub.apps.core-aionedge.dev.datahub.redhat.com/api/v0.1/predictions',
@@ -108,7 +107,6 @@ async function check_anomaly(id, value) {
     }
     
     console.log('New  ID: %s,  Val: %d', id, value );
-    last_value_map[id] = value;
     return result;
 }
 
