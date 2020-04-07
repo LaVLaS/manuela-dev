@@ -32,6 +32,7 @@ const http = require('http').createServer(app);
 // const router = new express.Router();
 const cors = require('cors');
 const io = require('socket.io')(http, { origins: '*:*', path: socket_path });
+const request = require('request-promise');
 
 // Middleware config
 app.use(cors());
@@ -75,19 +76,37 @@ function handleLight(message) {
 
 // Mock for Anomaly
 var last_value_map = {};
-function check_anomaly(id, value) {
+async function check_anomaly(id, value) {
     var result = false
+
+    var edgeAnomalyDict = { "data": { "ndarray": value }};
 
     if ( isNaN(last_value_map[id])) {
        result = false
        console.log('Last ID: %s,  Val: NO', id );
     } else {
        console.log('Last ID: %s,  Val: %d', id, last_value_map[id] );
+       edgeAnomalyResponse = await request({
+         method: 'POST',
+         uri: 'http://anomaly-detection-opendatahub.apps.core-aionedge.dev.datahub.redhat.com',
+         body: edgeAnomalyDict,
+         json: true,
+         timeout: 1000
+       });
+
+       if ( edgeAnomalyResponse["data"]["ndarray"][0] < 1.0 ){
+         result = true
+       } else {
+         result = false
+       }
+
+       /*
        if (  value > 2 && value > (last_value_map[id] * 1.95) ) {
 	      result = true 
        } else {
          result = false 
        }
+       */
     }
     
     console.log('New  ID: %s,  Val: %d', id, value );
@@ -134,17 +153,8 @@ async function handleVibration(message) {
         var id=elements[0]+elements[1]
         var value = parseFloat(elements[2])
 
-        var edgeAnomalyDict = { "data": { "ndarray": value }};
 
-        //var ano = check_anomaly(id,value)
-        var ano = await request({
-          method: 'POST',
-          uri: 'anomaly-detection-opendatahub.apps.core-aionedge.dev.datahub.redhat.com',
-          body: edgeAnomalyDict,
-          json: true,
-          timeout: 1000
-        });
-
+        var ano = check_anomaly(id,value)
         console.log('Ano: %s', ano.toString());
 
         if(ano) {
