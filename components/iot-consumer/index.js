@@ -79,7 +79,7 @@ var last_value_map = {};
 async function check_anomaly(id, value) {
     var result = false
 
-    var edgeAnomalyDict = { "data": { "ndarray": value }};
+    var edgeAnomalyDict = { "data": { "ndarray": [value] }};
 
     try {
       if ( isNaN(last_value_map[id])) {
