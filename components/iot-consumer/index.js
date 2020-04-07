@@ -153,7 +153,7 @@ async function handleVibration(message) {
         var value = parseFloat(elements[2])
 
 
-        var ano = check_anomaly(id,value)
+        var ano = await check_anomaly(id,value)
         console.log('Ano: %s', ano);
 
         if(ano) {
