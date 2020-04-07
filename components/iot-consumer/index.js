@@ -89,7 +89,7 @@ async function check_anomaly(id, value) {
         console.log('Last ID: %s,  Val: %d', id, last_value_map[id] );
         edgeAnomalyResponse = await request({
           method: 'POST',
-          uri: 'http://anomaly-detection-opendatahub.apps.core-aionedge.dev.datahub.redhat.com',
+          uri: 'http://anomaly-detection-opendatahub.apps.core-aionedge.dev.datahub.redhat.com/api/v0.1/predictions',
           body: edgeAnomalyDict,
           json: true,
           timeout: 1000
