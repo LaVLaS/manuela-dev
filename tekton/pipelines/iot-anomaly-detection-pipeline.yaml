@@ -28,7 +28,7 @@ spec:
       - name: TLSVERIFY
         value: "false"
       - name: PATH_CONTEXT
-        value: components/iot-anomaly-detection
+        value: "."
   - name: bumpversion
     taskRef:
       name: bumpversion
@@ -38,7 +38,7 @@ spec:
           resource: git-repo
     params:
       - name: PATH_CONTEXT
-        value: components/iot-anomaly-detection
+        value: "."
     runAfter:
       - build-seldon-image
   - name: tag-local-image 
@@ -52,7 +52,7 @@ spec:
           resource: local-image  
     params:
       - name: PATH_CONTEXT
-        value: components/iot-anomaly-detection
+        value: "."
     runAfter:
       - bumpversion
   - name: modify-gitops-test
@@ -75,7 +75,7 @@ spec:
     - name: YAML_PATH
       value: images.(name==anomaly-detection).newTag  
     - name: VERSION_PATH
-      value: components/iot-anomaly-detection/VERSION
+      value: "VERSION"
   - name: argocd-sync-application
     taskRef:
       name: argocd-task-sync-and-wait
